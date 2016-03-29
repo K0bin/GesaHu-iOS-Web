@@ -1,0 +1,49 @@
+﻿module GesaHuVertretungsplan.Model {
+    export class Subjects {
+        public static m: string = 'Mathematik';
+        public static e: string = 'Englisch';
+        public static d: string = 'Deutsch';
+        public static al: string = 'Arbeitslehrer';
+        public static ge: string = 'Geschichte';
+        public static spo: string = 'Sport';
+        public static sp: string = 'Sport';
+        public static wpu1: string = 'Wahlpflichtu. 1';
+        public static wpu2: string = 'Wahlpflichtu. 2';
+        public static d_foe: string = 'Deutsch Förderu.';
+        public static e_foe: string = 'Englisch Förderu.';
+        public static m_foe: string = 'Mathematik Förderu.';
+        public static ch: string = 'Chemie';
+        public static rel: string = 'Religion';
+        public static bio: string = 'Biologie';
+        public static ph: string = 'Physik';
+        public static eth: string = 'Ethik';
+        public static fr: string = 'Französisch';
+        public static f: string = 'Französisch';
+        public static info: string = 'Informatik';
+        public static musik: string = 'Musik';
+        public static la: string = 'Latein';
+        public static l: string = 'Latein';
+        public static Spa: string = 'Spanisch';
+        public static ita: string = 'Italienisch';
+        public static bso: string = 'Berufsorientierter U.';
+        public static ku: string = 'Kunst';
+        public static dsp: string = 'Darstellendes Spiel';
+        public static gl: string = 'Gesellschaftsw.';
+        public static ek: string = 'Erdkunde';
+        public static ver: string = 'Vertretungsreserve';
+        public static rev: string = 'Evang. Religion';
+        public static rk: string = 'Kath. Religion';
+        public static powi: string = 'Politik und Wirtschaft';
+        public static ikg: string = 'Informatik KG';
+        public static profil: string = 'Profilgruppe';
+        public static pu: string = 'Praxisorientierter U.';
+        public static nawi: string = 'Naturwissenschaftlichen';
+        public static sl: string = 'Soziales Lernen';
+        public static kl: string = 'Klassenlehrer U.';
+        public static vert: string = 'Vertretungsreserve';
+        public static d_lrs: string = 'Deutsch-LRS';
+        public static ch_lk: string = 'Chemie LK';
+        public static swi: string = 'Schwimmen';
+        public static int: string = 'Integration';
+    }
+}

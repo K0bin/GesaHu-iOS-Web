@@ -1,0 +1,105 @@
+﻿<div class="navbar">
+    <div class="navbar-inner">
+        <div class="left" id="navbarBack">
+            <a class="link back with-animation" href="#index">
+                <i class="icon icon-back"></i>
+                <span>Zurück</span>
+            </a>
+        </div>
+
+        <div class="center sliding">
+            Einstellungen
+        </div>
+    </div>
+</div>
+
+<div class="page theme-green" data-page="preferences">
+    <div class="page-content">
+        <div class="content-block-title">Schülerinformationen</div>
+        <form id="preferencesForm" class="list-block store-data">
+            <ul>
+
+                <li>
+                    <a href="#" class="item-link smart-select" data-back-on-select="true">
+                        <select name="schoolyear">
+                            <option value="05" selected>05</option>
+                            <option value="06">06</option>
+                            <option value="07">07</option>
+                            <option value="08">08</option>
+                            <option value="09">09</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                            <option value="13">13</option>
+                        </select>
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title label">
+                                    Schuljahr
+                                </div>
+                                <div class="item-after">
+                                    05
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#" class="item-link smart-select" data-back-on-select="true">
+                        <select name="schoolclass">
+                            <option value="a" selected>a</option>
+                            <option value="b">b</option>
+                            <option value="c">c</option>
+                            <option value="d">d</option>
+                            <option value="e">e</option>
+                            <option value="f">f</option>
+                        </select>
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title label">
+                                    Schulklasse
+                                </div>
+                                <div class="item-after">
+                                    a
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+
+                <li class="item-content long-input">
+                    <div class="item-inner">
+                        <div class="item-title label">
+                            Nur relevante Stunden
+                        </div>
+
+                        <div class="item-input">
+                            <label class="label-switch">
+                                <input id="filterCheckbox" name="filterrelevant" type="checkbox" />
+                                <div class="checkbox"></div>
+                            </label>
+                        </div>
+                    </div>
+                </li>
+
+
+                <li id="relevantCheckboxContainer" class="item-content long-input">
+                    <div class="item-inner">
+                        <div class="item-title label">
+                            Relevante Stunden oben
+                        </div>
+
+                        <div class="item-input">
+                            <label class="label-switch">
+                                <input id="relevantCheckbox" name="relevanttop" type="checkbox" />
+                                <div class="checkbox"></div>
+                            </label>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <div class="list-block-label">Gesahu VP markiert für dich relevante Vertretungsstunden. Es ist auch möglich, diese über den anderen anzuzeigen oder die anderen Stunden ganz auszublenden.</div>
+        </form>
+    </div>
+</div>

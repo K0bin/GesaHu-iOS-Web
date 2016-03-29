@@ -1,0 +1,102 @@
+﻿.pages {
+    background-color: #efeff4;
+}
+
+#popoverPosition {
+    height: 0px;
+    width: 100%;
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+}
+
+* {
+    font-family: "San Francisco", "San Francisco Display", "Helvetica", "Segoe UI", "Roboto", "Arial", "OpenSans";
+}
+
+* {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.list-block.media-list {
+    margin-top: -1px;
+    border-top:none;
+}
+
+.item-media {
+    width: 38px;
+    height: 38px;
+}
+
+.item-title-row {
+    vertical-align: middle;
+    align-content: center;
+    align-items: center;
+}
+
+.lesson {
+    text-align: center;
+    display: inline-block !important;
+    background: #cccccc;
+    border-radius: 50%;
+    width: 38px;
+}
+
+.lessonImportant {
+    background: #4CDA58 !important;
+}
+
+.subject {
+    vertical-align: middle;
+}
+
+.room {
+    color: black !important;
+    font-size: 13px !important;
+    vertical-align: middle;
+}
+
+.substituteTeacher {
+    color: black !important;
+    font-size: 15px !important;
+    max-width: 45%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.regularTeacher {
+    font-size: 15px !important;
+}
+
+.hint {
+    color: #8e8e93 !important;
+    font-size: 13px !important;
+}
+
+.ios-icon {
+    font-family: "Ionicons" !important;
+}
+
+.disabled-announcement {
+    color:#919191 !important; 
+}
+
+.item-input {
+    width:auto !important;
+}
+
+.item-title {
+    /*width:100% !important;*/
+    width:auto !important;
+}
+
+@media (width: 320px) {
+    .popover {
+        left:auto !important;
+    }
+}
+
