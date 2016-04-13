@@ -7,6 +7,12 @@ module GesaHuVertretungsplan.Ui {
         }
 
         public static createFromSubstitute(substitute: Substitute): HTMLElement {
+            if (substitute == null)
+                return ListElement.createErrorElement();
+
+            if (substitute.lesson == '-1')
+                return ListElement.createEmptyElement();
+
             let li = ListElement.createElementWithClass('li', 'item-content');
 
             let media = ListElement.createElementWithClass('div', 'item-media lesson');

@@ -281,7 +281,7 @@ declare namespace Framework7 {
         cols?: number;
         height?: number | { (item: any): number };
         template?: string | Function;
-        renderItem?: (index: number, item: any) => HTMLElement;
+        renderItem?: (index: number, item: any) => string;
         dynamicHeightBufferSize?: number;
         cache?: boolean;
         updatableScroll?: boolean;

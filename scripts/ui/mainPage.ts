@@ -15,6 +15,7 @@
 
         private ptrContent: Dom7.Dom7;
         private calendar: Framework7.Calendar;
+        private list: Framework7.VirtualList;
         private isLoading: boolean;
 
         public constructor(framework: Framework7, mainView: Framework7.View) {
@@ -56,6 +57,24 @@
                 console.log('announcements');
                 if (this.substitutesList && this.substitutesList.hasAnnouncement)
                     this.framework.alert(this.substitutesList.announcement, 'Ankündigungen');
+            });
+
+
+            this.list = this.framework.virtualList('.list-block', {
+                items: [new Substitute('-1', '', '', '', '', '', null)],
+                height: (item: Object) => {
+                    let substitute = item as Substitute;
+                    if (substitute == null || !substitute.hint)
+                        return 63;
+                    else
+                        return 81;
+                },
+                renderItem: (index: number, item: Object): string => {
+                    let element = document.createElement('div');
+                    let li = ListElement.createFromSubstitute(<Substitute>item);
+                    element.appendChild(li);
+                    return element.innerHTML;
+                },
             });
 
             this.load(SchoolWeek.nextSchoolDay());
@@ -105,12 +124,11 @@
                     if (this.preferences.loadRelevantOnTop())
                         substitutes = SubstitutesList.sort(list.subsitutes);
                 else
-                    substitutes =list.subsitutes;
+                    substitutes = list.subsitutes;
 
-                for (let substitute of substitutes)
-                    listElement.append(ListElement.createFromSubstitute(substitute));
+                this.list.replaceAllItems(substitutes);
             } else
-                listElement.append(ListElement.createEmptyElement());
+                this.list.replaceAllItems([new Substitute('-1', '', '', '', '', '', null)]);
 
             let showAnnouncementsButton = Dom7('#showAnnouncements');
             if (list.hasAnnouncement)
@@ -127,8 +145,8 @@
 
             if (!this.substitutesList || this.substitutesList.date != this.date) {
                 let listElement = Dom7('#substitutesList');
-                ListElement.clearList(listElement);
-                listElement.append(ListElement.createErrorElement());
+
+                this.list.replaceAllItems(null);
 
                 let showAnnouncementsButton = Dom7('#showAnnouncements');
                 showAnnouncementsButton.addClass('disabled disabled-announcement');
