@@ -1,11 +1,13 @@
 ﻿module GesaHuVertretungsplan {
     import MainPage = GesaHuVertretungsplan.Ui.MainPage;
+    import AboutPage = GesaHuVertretungsplan.Ui.AboutPage;
     import PreferencesPage = GesaHuVertretungsplan.Ui.PreferencesPage;
 
     export class Application {
         private framework: Framework7;
         private mainView: Framework7.View;
         private mainPage: MainPage;
+        private aboutPage: AboutPage;
         private preferencesPage: PreferencesPage;
 
         public constructor() {
@@ -24,6 +26,7 @@
 
             this.preferencesPage = new PreferencesPage(this.framework, this.mainView);
             this.mainPage = new MainPage(this.framework, this.mainView);
+            this.aboutPage = new AboutPage(this.framework, this.mainView);
             this.mainPage.navigate(true);
         }
 

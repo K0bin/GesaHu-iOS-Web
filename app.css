@@ -94,6 +94,41 @@
     width:auto !important;
 }
 
+.about-logo {
+    display:block;
+    margin-left:auto;
+    margin-right:auto;
+    margin-top:16px;
+    margin-bottom:16px;
+}
+
+.about-title {
+    display:block;
+    text-align:center;
+    font-size:larger;
+}
+
+.about-version {  
+    display:block;  
+    text-align:center;
+    font-size:smaller;
+    margin-bottom:16px;
+}
+
+.about-summary {
+    text-align:center;
+    margin-left:16px;
+    margin-right:16px;
+}
+
+.about-web {
+    text-align:center;
+    font-size:smaller;
+    margin-top:4px;
+    margin-left:16px;
+    margin-right:16px;
+}
+
 @media (width: 320px) {
     .popover {
         left:auto !important;

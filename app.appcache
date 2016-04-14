@@ -5,12 +5,14 @@ index.html
 app.css
 scripts/app.js
 main.html
+about.html
 preferences.html
 scripts/util/replaceAll.js
 scripts/ui/listElement.js
+scripts/ui/page.js
 scripts/ui/preferencesPage.js
 scripts/ui/mainPage.js
-scripts/ui/page.js
+scripts/ui/aboutPage.js
 scripts/model/schoolWeek.js
 scripts/model/student.js
 scripts/model/subjects.js
