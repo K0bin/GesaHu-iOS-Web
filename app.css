@@ -94,6 +94,19 @@
     width:auto !important;
 }
 
+.swiper-container {    
+  min-height: 100%;
+}
+
+.swiper-wrapper {
+    margin-top:20px;
+}
+
+.swiper-pagination {
+    /*bottom: 56px !important;*/
+    width: 100%;
+}
+
 .about-logo {
     display:block;
     margin-left:auto;

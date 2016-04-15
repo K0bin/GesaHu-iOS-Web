@@ -5,18 +5,20 @@
     import Preferences = GesaHuVertretungsplan.Loader.Preferences;
     import SubstitutesListLoader = GesaHuVertretungsplan.Loader.SubstitutesListLoader;
     import LoaderCallback = GesaHuVertretungsplan.Loader.Callback;
+    import SwipeView = GesaHuVertretungsplan.Ui.SwipeView;
 
     export class MainPage extends Page {
+        //First day of the current week
         private date: Date = new Date();
         private preferences: Preferences;
-        private substitutesList: SubstitutesList;
-
-        private loader: SubstitutesListLoader;
 
         private ptrContent: Dom7.Dom7;
         private calendar: Framework7.Calendar;
-        private list: Framework7.VirtualList;
         private isLoading: boolean;
+
+        private swiper: Swiper;
+
+        private views: SwipeView[];
 
         public constructor(framework: Framework7, mainView: Framework7.View) {
             super(framework, mainView, 'main', 'main.html', false);
@@ -26,17 +28,21 @@
             //Load student
             this.preferences = new Preferences(this.framework);
             this.preferences.load();
-            this.loader = new SubstitutesListLoader({ onFailure: () => { this.onFailure();}, onSuccess: (list: SubstitutesList) => { this.onSuccess(list); } });
+
+            this.views = new Array<SwipeView>(5);
         }
 
         protected reinitialize(page: Framework7.PageData): void {
             this.preferences.load();
+            for (let view of this.views) {
+                view.setPreferences(this.preferences);
+            }
         }
 
         protected initialize(page: Framework7.PageData): void {
             //Set up pull to refresh
             this.ptrContent = Dom7('.pull-to-refresh-content');
-            this.ptrContent.on('refresh', () => { this.refresh(); });
+            this.ptrContent.on('refresh', () => { this.views[this.swiper.activeIndex].refresh(); });
 
             //setup calendar
             this.calendar = this.framework.calendar({
@@ -50,107 +56,105 @@
             showCalendarButton.on('click', () => {
                 console.log('calendar');
                 this.calendar.open();
+            });            
+
+            this.swiper = this.framework.swiper('.swiper-container', {
+                pagination: '.swiper-pagination',
+                lazyLoading: true,
+                autoHeight: true,
             });
+
+            this.swiper.on('slideChangeEnd', () => this.onPageChanged());
+
+            this.setDate(SchoolWeek.nextSchoolDay());
 
             let showAnnouncementsButton = Dom7('#showAnnouncements');
             showAnnouncementsButton.on('click', () => {
                 console.log('announcements');
-                if (this.substitutesList && this.substitutesList.hasAnnouncement)
-                    this.framework.alert(this.substitutesList.announcement, 'Ankündigungen');
+                if (this.views[this.swiper.activeIndex].substitutesList && this.views[this.swiper.activeIndex].substitutesList.hasAnnouncement)
+                    this.framework.alert(this.views[this.swiper.activeIndex].substitutesList.announcement, 'Ankündigungen');
             });
-
-
-            this.list = this.framework.virtualList('.list-block', {
-                items: [new Substitute('-1', '', '', '', '', '', null)],
-                height: (item: Object) => {
-                    let substitute = item as Substitute;
-                    if (substitute == null || !substitute.hint)
-                        return 63;
-                    else
-                        return 81;
-                },
-                renderItem: (index: number, item: Object): string => {
-                    let element = document.createElement('div');
-                    let li = ListElement.createFromSubstitute(<Substitute>item);
-                    element.appendChild(li);
-                    return element.innerHTML;
-                },
-            });
-
-            this.load(SchoolWeek.nextSchoolDay());
         }
 
-        private load(_date: Date): void {
-            this.isLoading = true;
-            this.framework.pullToRefreshTrigger('.pull-to-refresh-content');
-            this.date = _date;
+        private setDate(date: Date): void {
+            if (!date)
+                return;
 
-            this.loader.load(this.date, this.preferences.loadStudent());
-        }
+            date = SchoolWeek.nextSchoolDay(date);
 
-        private refresh(): void {
-            if (!this.isLoading) {
-                console.log('refresh!');
-                this.load(this.date);
+            //Move day to monday
+            let dayIndex = date.getDay() - 1;
+            date.setDate(date.getDate() - dayIndex);
+
+            if (this.date != date) {
+                this.date = date;
+
+                for (let i = 0; i < 5; i++) {
+                    let _date = new Date(date.valueOf());
+                    _date.setDate(_date.getDate() + i);
+
+                    this.views[i] = new SwipeView(this.framework, this.mainView, this, _date, this.preferences);
+                }
+
+                let previousIndex = this.swiper.activeIndex;
+                this.swiper.slideTo(dayIndex);
+
+                if (previousIndex != this.swiper.activeIndex)
+                    this.onPageChanged();
             }
         }
 
-        private loadFromCalendar(p, dayContainer, year, month, day): void {
-            if (!this.isLoading) {
-                let _date = new Date(year, month, day);
-                this.calendar.close();
-                this.load(SchoolWeek.nextSchoolDay(_date));
-            }
-        }
+        private onPageChanged(): void {
+            let _date = new Date(this.date.valueOf());
+            _date.setDate(_date.getDate() + this.swiper.activeIndex);
 
-        public onSuccess(list: SubstitutesList): void {
-            if (!list)
-                this.onFailure();
-
-            this.isLoading = false;
-            this.framework.pullToRefreshDone(this.ptrContent);
-
-            let listElement = Dom7('#substitutesList');
-            ListElement.clearList(listElement);
-            let dateStr = SchoolWeek.dateToString(list.date);
+            let dateStr = SchoolWeek.dateToString(_date);
             Dom7('#indexTitle').text(dateStr);
             this.framework.sizeNavbars('.view-main');
 
-            if (list.hasSubstitutes) {
-                let substitutes: Substitute[];
-                if (this.preferences.loadFilterRelevant())
-                    substitutes = SubstitutesList.filterImportant(list.subsitutes);
-                else
-                    if (this.preferences.loadRelevantOnTop())
-                        substitutes = SubstitutesList.sort(list.subsitutes);
-                else
-                    substitutes = list.subsitutes;
-
-                this.list.replaceAllItems(substitutes);
-            } else
-                this.list.replaceAllItems([new Substitute('-1', '', '', '', '', '', null)]);
-
             let showAnnouncementsButton = Dom7('#showAnnouncements');
-            if (list.hasAnnouncement)
+            if (this.views[this.swiper.activeIndex].substitutesList && this.views[this.swiper.activeIndex].substitutesList.hasAnnouncement)
                 showAnnouncementsButton.removeClass('disabled disabled-announcement');
             else
                 showAnnouncementsButton.addClass('disabled disabled-announcement');
 
-            this.substitutesList = list;
+            if (this.views[this.swiper.activeIndex].isLoading)
+                this.setRefreshing(true);
+            else {
+                if (!this.views[this.swiper.activeIndex].substitutesList) {
+
+                    if (this.swiper.activeIndex > 0 && !this.views[this.swiper.activeIndex - 1].substitutesList)
+                        this.views[this.swiper.activeIndex - 1].refresh();
+
+                    if (this.swiper.activeIndex < 4 && !this.views[this.swiper.activeIndex + 1].substitutesList)
+                        this.views[this.swiper.activeIndex + 1].refresh();
+                    
+                    this.views[this.swiper.activeIndex].refresh();
+                } else
+                    this.setRefreshing(false);
+            }
+
         }
 
-        public onFailure(): void {
-            this.isLoading = false;
-            this.framework.pullToRefreshDone(this.ptrContent);
-
-            if (!this.substitutesList || this.substitutesList.date != this.date) {
-                let listElement = Dom7('#substitutesList');
-
-                this.list.replaceAllItems(null);
-
-                let showAnnouncementsButton = Dom7('#showAnnouncements');
-                showAnnouncementsButton.addClass('disabled disabled-announcement');
+        private loadFromCalendar(p, dayContainer, year, month, day): void {
+            if (!this.isLoading) {
+                this.setDate(new Date(year, month, day));
+                this.calendar.close();
             }
+        }
+
+        public setRefreshing(refreshing: boolean): void {
+            if (refreshing)
+                this.framework.initPullToRefresh(this.ptrContent);
+            else
+                this.framework.pullToRefreshDone(this.ptrContent);
+        }
+        
+        public get activeIndex(): number {
+            return this.swiper.activeIndex;
+        }
+        public updateSwiper(): void {
+            this.swiper.update(false);
         }
     }
 }

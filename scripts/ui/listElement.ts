@@ -13,6 +13,9 @@ module GesaHuVertretungsplan.Ui {
             if (substitute.lesson == '-1')
                 return ListElement.createEmptyElement();
 
+            if (substitute.lesson == '-2')
+                return ListElement.createErrorElement();
+
             let li = ListElement.createElementWithClass('li', 'item-content');
 
             let media = ListElement.createElementWithClass('div', 'item-media lesson');
