@@ -108,7 +108,7 @@
 
 
             if (this.isActive) {
-                this.containingPage.setRefreshing(true);
+                this.containingPage.setRefreshing(false);
                 this.containingPage.updateSwiper();
 
                 let showAnnouncementsButton = Dom7('#showAnnouncements');

@@ -14,7 +14,6 @@
 
         private ptrContent: Dom7.Dom7;
         private calendar: Framework7.Calendar;
-        private isLoading: boolean;
 
         private swiper: Swiper;
 
@@ -42,6 +41,7 @@
         protected initialize(page: Framework7.PageData): void {
             //Set up pull to refresh
             this.ptrContent = Dom7('.pull-to-refresh-content');
+            this.framework.initPullToRefresh(this.ptrContent);
             this.ptrContent.on('refresh', () => { this.views[this.swiper.activeIndex].refresh(); });
 
             //setup calendar
@@ -55,6 +55,10 @@
             let showCalendarButton = Dom7('#showCalendar');
             showCalendarButton.on('click', () => {
                 console.log('calendar');
+                let _date = new Date(this.date.valueOf());
+                _date.setDate(_date.getDate() + this.swiper.activeIndex);
+
+                this.calendar.setValue([_date]);
                 this.calendar.open();
             });            
 
@@ -71,6 +75,7 @@
             let showAnnouncementsButton = Dom7('#showAnnouncements');
             showAnnouncementsButton.on('click', () => {
                 console.log('announcements');
+
                 if (this.views[this.swiper.activeIndex].substitutesList && this.views[this.swiper.activeIndex].substitutesList.hasAnnouncement)
                     this.framework.alert(this.views[this.swiper.activeIndex].substitutesList.announcement, 'Ankündigungen');
             });
@@ -99,9 +104,11 @@
                 let previousIndex = this.swiper.activeIndex;
                 this.swiper.slideTo(dayIndex);
 
-                if (previousIndex != this.swiper.activeIndex)
+                if (previousIndex == this.swiper.activeIndex)
                     this.onPageChanged();
             }
+            else
+                this.swiper.slideTo(dayIndex);
         }
 
         private onPageChanged(): void {
@@ -137,15 +144,13 @@
         }
 
         private loadFromCalendar(p, dayContainer, year, month, day): void {
-            if (!this.isLoading) {
-                this.setDate(new Date(year, month, day));
-                this.calendar.close();
-            }
+            this.calendar.close();
+            this.setDate(new Date(year, month, day));
         }
 
         public setRefreshing(refreshing: boolean): void {
             if (refreshing)
-                this.framework.initPullToRefresh(this.ptrContent);
+                this.framework.pullToRefreshTrigger(this.ptrContent);
             else
                 this.framework.pullToRefreshDone(this.ptrContent);
         }

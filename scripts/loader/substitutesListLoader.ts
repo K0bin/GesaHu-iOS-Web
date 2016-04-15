@@ -40,9 +40,9 @@
             let ajax = new XMLHttpRequest();
             ajax.open('GET', urlString, true);
             ajax.onreadystatechange = (ev: Event) => { this.ajaxCallback(ajax); };
-            ajax.onabort = (ev: Event) => { this.callback.onFailure(); };
-            ajax.onerror = (ev: Event) => { this.callback.onFailure(); };
-            ajax.ontimeout = (ev: Event) => { this.callback.onFailure(); };
+            ajax.onabort = (ev: Event) => { console.log('abort'); this.callback.onFailure(); };
+            ajax.onerror = (ev: Event) => { console.log('error'); this.callback.onFailure(); };
+            ajax.ontimeout = (ev: Event) => { console.log('timeout'); this.callback.onFailure(); };
             ajax.send();
         }
 
