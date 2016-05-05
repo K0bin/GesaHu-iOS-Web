@@ -44,6 +44,9 @@
     background: #cccccc;
     border-radius: 50%;
     width: 38px;
+    white-space:nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .lessonImportant {
@@ -52,29 +55,42 @@
 
 .subject {
     vertical-align: middle;
+    white-space:nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .room {
     color: black !important;
     font-size: 13px !important;
     vertical-align: middle;
+    white-space:nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .substituteTeacher {
     color: black !important;
     font-size: 15px !important;
-    max-width: 45%;
     text-overflow: ellipsis;
     overflow: hidden;
+    text-align:right;
+    white-space:nowrap;
 }
 
 .regularTeacher {
     font-size: 15px !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space:nowrap;
 }
 
 .hint {
     color: #8e8e93 !important;
     font-size: 13px !important;
+    white-space:nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .ios-icon {
@@ -121,7 +137,7 @@
     font-size:larger;
 }
 
-.about-version {  
+.about-version {
     display:block;  
     text-align:center;
     font-size:smaller;
@@ -147,4 +163,3 @@
         left:auto !important;
     }
 }
-
