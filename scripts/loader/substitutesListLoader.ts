@@ -148,7 +148,7 @@
                                         if (teacher)
                                             teacher += '; ';
 
-                                        teacher += this.resolver.resolveTeacher(_teacher);
+                                        teacher += this.resolver.resolveTeacher(_teacher.trim());
                                     }
                                 }
                             } break;
@@ -161,7 +161,7 @@
                                         if (substituteTeacher)
                                             substituteTeacher += '; ';
 
-                                        substituteTeacher += this.resolver.resolveTeacher(_teacher);
+                                        substituteTeacher += this.resolver.resolveTeacher(_teacher.trim());
                                     }
                                 }
                             } break;

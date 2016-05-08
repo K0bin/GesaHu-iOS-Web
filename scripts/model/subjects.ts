@@ -45,6 +45,7 @@
         public static d_lrs: string = 'Deutsch-LRS';
         public static ch_lk: string = 'Chemie LK';
         public static ku_lk: string = 'Kunst LK';
+        public static bio_lk1: string = 'Biologie LK';
         public static swi: string = 'Schwimmen';
         public static int: string = 'Integration';
         public static gap: string = 'Trainingsraum';
