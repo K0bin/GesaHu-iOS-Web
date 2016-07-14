@@ -1,4 +1,5 @@
 ﻿CACHE MANIFEST
+#v1.1.2 - 2016-07-14
 
 CACHE:
 index.html
@@ -10,6 +11,7 @@ preferences.html
 scripts/util/replaceAll.js
 scripts/ui/listElement.js
 scripts/ui/page.js
+scripts/ui/swipeView.js
 scripts/ui/preferencesPage.js
 scripts/ui/mainPage.js
 scripts/ui/aboutPage.js

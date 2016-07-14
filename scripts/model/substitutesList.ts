@@ -50,8 +50,18 @@
                     if (!b.isImportant)
                         return -1;
                     else {
-                        if (a.startingLesson - b.startingLesson == 0)
-                            return a.lesson.length - b.lesson.length;
+                        if (a.startingLesson - b.startingLesson == 0) {
+                            if (a.lesson.length - b.lesson.length == 0) {
+                                if (a.subject > b.subject)
+                                    return 1;
+                                else if (a.subject < b.subject)
+                                    return -1;
+                                else
+                                    return 0;
+                            }
+                            else
+                                return a.lesson.length - b.lesson.length;
+                        }                   
 
                         return a.startingLesson - b.startingLesson;
                     }
@@ -59,8 +69,18 @@
                     if (b.isImportant)
                         return 1;
                     else {
-                        if (a.startingLesson - b.startingLesson == 0)
-                            return a.lesson.length - b.lesson.length;
+                        if (a.startingLesson - b.startingLesson == 0) {
+                            if (a.lesson.length - b.lesson.length == 0) {
+                                if (a.subject > b.subject)
+                                    return 1;
+                                else if (a.subject < b.subject)
+                                    return -1;
+                                else
+                                    return 0;
+                            }
+                            else
+                                return a.lesson.length - b.lesson.length;
+                        } 
 
                         return a.startingLesson - b.startingLesson;
                     }

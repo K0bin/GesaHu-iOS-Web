@@ -40,6 +40,9 @@
             let ajax = new XMLHttpRequest();
             ajax.open('GET', urlString, true);
             ajax.onreadystatechange = (ev: Event) => { this.ajaxCallback(ajax); };
+            ajax.onabort = (ev: Event) => { console.log('abort'); this.callback.onFailure(); };
+            ajax.onerror = (ev: Event) => { console.log('error'); this.callback.onFailure(); };
+            ajax.ontimeout = (ev: Event) => { console.log('timeout'); this.callback.onFailure(); };
             ajax.send();
         }
 
@@ -145,7 +148,7 @@
                                         if (teacher)
                                             teacher += '; ';
 
-                                        teacher += this.resolver.resolveTeacher(_teacher);
+                                        teacher += this.resolver.resolveTeacher(_teacher.trim());
                                     }
                                 }
                             } break;
@@ -158,7 +161,7 @@
                                         if (substituteTeacher)
                                             substituteTeacher += '; ';
 
-                                        substituteTeacher += this.resolver.resolveTeacher(_teacher);
+                                        substituteTeacher += this.resolver.resolveTeacher(_teacher.trim());
                                     }
                                 }
                             } break;

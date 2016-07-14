@@ -21,7 +21,7 @@
             let classes = subject.split(" ");
             if (student && classes.length > 0) {
                 let _class: string = classes[classes.length - 1];
-                this._isImportant = _class.indexOf(student.schoolYear) != -1 && _class.indexOf(student.schoolClass) != -1;
+                this._isImportant = (_class.indexOf(student.schoolYear) || (student.schoolYear == '13' && _class.toLowerCase() == 'abi')) != -1 && _class.indexOf(student.schoolClass) != -1;
             } else
                 this._isImportant = false;
 

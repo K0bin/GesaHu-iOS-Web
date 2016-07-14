@@ -3,7 +3,7 @@
         public static m: string = 'Mathematik';
         public static e: string = 'Englisch';
         public static d: string = 'Deutsch';
-        public static al: string = 'Arbeitslehrer';
+        public static al: string = 'Arbeitslehre';
         public static ge: string = 'Geschichte';
         public static spo: string = 'Sport';
         public static sp: string = 'Sport';
@@ -21,9 +21,10 @@
         public static f: string = 'Französisch';
         public static info: string = 'Informatik';
         public static musik: string = 'Musik';
+        public static mu: string = 'Musik';
         public static la: string = 'Latein';
         public static l: string = 'Latein';
-        public static Spa: string = 'Spanisch';
+        public static spa: string = 'Spanisch';
         public static ita: string = 'Italienisch';
         public static bso: string = 'Berufsorientierter U.';
         public static ku: string = 'Kunst';
@@ -43,7 +44,13 @@
         public static vert: string = 'Vertretungsreserve';
         public static d_lrs: string = 'Deutsch-LRS';
         public static ch_lk: string = 'Chemie LK';
+        public static ku_lk: string = 'Kunst LK';
+        public static bio_lk1: string = 'Biologie LK';
         public static swi: string = 'Schwimmen';
         public static int: string = 'Integration';
+        public static gap: string = 'Trainingsraum';
+        public static media: string = 'Mediathek';
+        public static lmb: string = 'Lehrmittelbücherei';
+        public static kudamu: string = 'Musische Fächer';
     }
 }
