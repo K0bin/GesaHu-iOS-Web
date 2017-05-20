@@ -1,4 +1,6 @@
-﻿module GesaHuVertretungsplan {
+﻿/// <reference path="../.packages/framework7/ts/framework7.d.ts" />
+
+module GesaHuVertretungsplan {
     import MainPage = GesaHuVertretungsplan.Ui.MainPage;
     import AboutPage = GesaHuVertretungsplan.Ui.AboutPage;
     import PreferencesPage = GesaHuVertretungsplan.Ui.PreferencesPage;
@@ -11,8 +13,6 @@
         private preferencesPage: PreferencesPage;
 
         public constructor() {
-
-
             this.framework = new Framework7({
                 sortable: false,
                 modalTitle: 'GesaHu VP'
@@ -27,12 +27,12 @@
             this.checkPlatform();
 
             // Check if a new cache is available on page load.
+            var _this = this;
             window.addEventListener('load', (e) => {
-
                 window.applicationCache.addEventListener('updateready', function (e) {
                     if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
                         // Browser downloaded a new app cache.
-                        this.framework.confirm('Eine neue Version der App steht zur Verfügung. Installieren?', 'Update', () => {
+                        _this.framework.confirm('Eine neue Version der App steht zur Verfügung. Installieren?', 'Update', () => {
                             window.location.reload();
                         });
                     } else {
