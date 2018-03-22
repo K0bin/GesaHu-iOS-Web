@@ -79,7 +79,7 @@
     text-overflow: ellipsis;
 }
 
-.substitute ..substituteTeacher {
+.substitute .substituteTeacher {
     color: black !important;
     font-size: 15px !important;
     text-overflow: ellipsis;

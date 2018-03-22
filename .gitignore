@@ -2,7 +2,6 @@
 *.js
 
 dist/
-!dist/index.html
 
 .vscode/
 
