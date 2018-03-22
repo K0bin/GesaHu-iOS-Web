@@ -6,40 +6,40 @@ const cors = setupCors({origin: true});
 
 export const corsFunction = functions.https.onRequest((request: any, response: any) => {
   cors(request, response, () => {
-    console.log('Query:', request.query);
-    console.log('Body:', request.body);
-
-    let requestUrl = request.query.url;
-    if (!requestUrl) {
-        requestUrl = request.body.url;
-    }
+    const requestUrl = request.query.url;
     let parsedUrl: url.Url | null
     try {
-        parsedUrl = new url.URL(requestUrl)
+        //parsedUrl = new url.URL(requestUrl)
+        parsedUrl = url.parse(requestUrl);
     } catch (e) {
+        console.error('Cannot parse URL '+requestUrl)
+        console.error(e)
         parsedUrl = null;
     }
-    if (!parsedUrl || !parsedUrl.hostname || parsedUrl.hostname.indexOf('gesahui.de') == -1) {
-        response.status(403).send('Invalid URL');
+    if (!parsedUrl || !parsedUrl.hostname || parsedUrl.hostname.indexOf('gesahui.de') === -1) {
+        const hostname = parsedUrl ? parsedUrl.hostname : '';
+        const error = 'Invalid URL ' + requestUrl + ' hostname: ' + hostname;
+        console.error(error);
+        response.status(403).send(error);
         return;
     }
-    console.log('Request:', requestUrl);
 
     fetch(requestUrl, {
       method: request.method,
-      body: request.get('content-type') === 'application/json' ? JSON.stringify(request.body) : request.body,
+      body: request.method === 'POST' ? (request.get('content-type') === 'application/json' ? JSON.stringify(request.body) : request.body): undefined,
       headers: {
         'Content-Type': request.get('Content-Type'),
-      },
+      }
     })
     .then(r => {
         if (!r.ok) {
             response.status(r.status).send('');
-            throw Error(r.statusText);
+            throw Error("Status: " + r.statusText + " on url: "+requestUrl);
         }
         return r;
     })
-    .then(r => r.text())
-    .then(body => response.status(200).send(body));
+    .then(r => r.headers.get('content-type') === 'application/json' ? r.json() : r.text())
+    .then(body => response.status(200).send(body))
+    .catch(e => console.error(e));
   });
 });
