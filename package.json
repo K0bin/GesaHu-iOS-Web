@@ -1,0 +1,41 @@
+{
+  "name": "gesahu-ios-pwa",
+  "version": "1.0.0",
+  "description": "GesaHu iOS",
+  "author": "Robin",
+  "license": "MIT",
+  "dependencies": {
+    "@types/framework7": "git+https://github.com/JasonKleban/Framework7.d.ts.git#v2",
+    "@types/framework7-vue": "git+https://github.com/JasonKleban/framework7-vue.d.ts.git",
+    "framework7": "^2.1.3",
+    "framework7-vue": "^2.1.2",
+    "typescript": "^2.7.2",
+    "vue": "^2.5.16",
+    "webpack": "^4.2.0"
+  },
+  "devDependencies": {
+    "copy-webpack-plugin": "^4.5.1",
+    "css-loader": "^0.28.11",
+    "extract-text-webpack-plugin": "^3.0.2",
+    "friendly-errors-webpack-plugin": "^1.6.1",
+    "html-webpack-plugin": "^3.0.7",
+    "node-notifier": "^5.2.1",
+    "optimize-css-assets-webpack-plugin": "^4.0.0",
+    "portfinder": "^1.0.13",
+    "style-loader": "^0.20.3",
+    "ts-loader": "^4.1.0",
+    "typescript": "^2.7.2",
+    "url-loader": "^1.0.1",
+    "vue-loader": "^14.2.1",
+    "vue-template-compiler": "^2.5.16",
+    "webpack": "^4.2.0",
+    "webpack-cli": "^2.0.12",
+    "webpack-dev-server": "^3.1.1",
+    "webpack-merge": "^4.1.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack--mode production --config build/webpack.dev.conf.js",
+    "start": "webpack-dev-server --progress --hot --inline --mode development --config build/webpack.dev.conf.js"
+  }
+}
