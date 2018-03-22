@@ -4,9 +4,8 @@
         <f7-toolbar>
             <f7-link>Link</f7-link>
         </f7-toolbar>
-        <f7-list>
-            <f7-list-item v-for="substitute in substitutes" v-bind="substitute" v-bind:key="substitute.key" :title="substitute.title"></f7-list-item>
-            <f7-list-item title="Item 2"></f7-list-item>
+        <f7-list media-list virtual-list>
+            <list-item v-for="substitute in substitutes" v-bind="substitute" v-bind:key="substitute.key" :substitute="substitute"></list-item>
         </f7-list>
     </f7-page>
 </template>
@@ -16,6 +15,7 @@
     import Vue from 'vue'
     import ApiSubstitutesRepository from '../model/repository/api/apiSubstitutesRepository'
     import Substitute from '../model/substitute'
+    import ListItem from './substituteListItem.vue'
 
     let viewData = {
         substitutes: new Array<Substitute>()
@@ -30,7 +30,8 @@
             f7List,
             f7ListItem,
             f7Toolbar,
-            f7Link
+            f7Link,
+            ListItem
         }
     });
 
