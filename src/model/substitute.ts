@@ -17,6 +17,8 @@ class Substitute {
     readonly kind: SubstituteKind
     readonly title: string;
 
+    readonly key: string
+
     constructor(date: Date, lessonBegin: number, duration: number, subject: string, course: string, teacher: string, substitute: string, room: string, hint: string, isRelevant: boolean) {
         this.date = date;
         this.lessonBegin = lessonBegin;
@@ -30,6 +32,8 @@ class Substitute {
         this.isRelevant = isRelevant;
 
         this.lessonText = this.duration > 1 ? this.lessonBegin.toString() + "-" + (this.lessonBegin + this.duration - 1).toString() : this.lessonBegin.toString();
+
+        this.key = lessonBegin + duration + subject + course + teacher + room;
 
         let lowerSubstitute = substitute.toLowerCase()
         let lowerHint = hint.toLowerCase()
