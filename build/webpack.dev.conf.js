@@ -59,10 +59,13 @@ module.exports = {
         loader: 'url-loader',
         options: {
           limit: 8192,
-          name: './img/[name].[ext]',
+          name: '[name].[ext]',
           publicPath: 'img/',
           outputPath: 'img/'
-        }
+        },
+        exclude: [
+            resolve('static/img/icon')
+        ]
       },
       {
         test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
@@ -75,7 +78,32 @@ module.exports = {
         }
       },
       {
-        test: /\.(html)$/,
+        test: /\.png?$/,
+        loader: 'file-loader',
+        options: {
+          name: '[name].[ext]',
+          publicPath: 'img/',
+          outputPath: 'img/'
+        },
+        include: [
+            resolve('static/img/icon')
+        ]
+      },
+      {
+        test: /\.(webmanifest)$/,
+        loader: 'file-loader',
+        options: {
+            name: '[name].[ext]',
+            publicPath: '/',
+            outputPath: '/'
+        }
+      },
+      /*{
+        test: /\.webmanifest$/,
+        loader: 'webmanifest-loader'
+      },*/
+      {
+        test: /\.html$/,
         use: [
             {
                 loader: 'file-loader',
@@ -89,7 +117,11 @@ module.exports = {
             {
                 loader: 'html-loader',
                 options: {
-                  minimize: true
+                  minimize: true,
+                  attrs: [
+                      'link:href',
+                      'img:src'
+                  ]
                 }
             }
         ],
