@@ -129,8 +129,17 @@
 }
 
 .swiper-pagination {
-    /*bottom: 56px !important;*/
-    width: 100%;
+    width: 100% !important;
+    position: fixed !important;
+    bottom: 44px !important;
+    width: 100% !important;
+    background-color: #EFEFF4 !important;
+    padding-top: 4px !important;
+    padding-bottom: 4px !important;
+}
+
+.list {
+    margin-top: 0px !important;
 }
 
 .about-logo {
