@@ -21,9 +21,9 @@ module.exports = {
   output: {
     filename: 'app.js',
     path: resolve('dist'),
-    //publicPath: ''
+    publicPath: ''
   },
-  //context: __dirname + '/../',
+  context: resolve(''),
   module: {
     rules: [
       {
@@ -61,7 +61,7 @@ module.exports = {
           limit: 8192,
           name: './img/[name].[ext]',
           publicPath: 'img/',
-          outputPath: resolve('img')
+          outputPath: 'img/'
         }
       },
       {
@@ -71,20 +71,10 @@ module.exports = {
           limit: 8192,
           name: '[name].[ext]',
           publicPath: 'font/',
-          outputPath: resolve('font')
+          outputPath: 'font/'
         }
       },
       {
-          test: /\.(html)$/,
-          loader: 'file-loader',
-          options: {
-              name: '[name].[ext]'
-          },
-          include: [
-              resolve('static')
-          ]
-      }
-      /*{
         test: /\.(html)$/,
         use: [
             {
@@ -106,7 +96,7 @@ module.exports = {
         include: [
             resolve('static')
         ]
-      }*/
+      }
     ]
   },
   devServer: {
