@@ -33,10 +33,10 @@ class Substitute {
 
         this.lessonText = this.duration > 1 ? this.lessonBegin.toString() + "-" + (this.lessonBegin + this.duration - 1).toString() : this.lessonBegin.toString();
 
-        this.key = lessonBegin + duration + subject + course + teacher + room;
+        this.key = lessonBegin + duration + subject + course + teacher + room + substitute;
 
-        let lowerSubstitute = substitute.toLowerCase()
-        let lowerHint = hint.toLowerCase()
+        const lowerSubstitute = substitute.toLowerCase()
+        const lowerHint = hint.toLowerCase()
         if (lowerSubstitute == "eigv. lernen" || lowerHint.indexOf("eigenverantwortliches arbeiten") != -1 || lowerHint.indexOf("entfällt") != -1)
             this.kind = SubstituteKind.Dropped
         else if ((substitute.trim().length > 0 || substitute == teacher) && lowerHint == "raumänderung")
@@ -48,7 +48,7 @@ class Substitute {
         else
             this.kind = SubstituteKind.Substitute
 
-        var titleStr = course
+        let titleStr = course
         if (course.trim().length > 0 && subject.trim().length > 0) {
             titleStr += " ";
         }

@@ -5,9 +5,9 @@
             <f7-link>Link</f7-link>
         </f7-toolbar>
         <f7-swiper pagination :params="{autoHeight: true}">
-            <f7-swiper-slide v-for="page in pages" v-bind="page" v-bind:key="page.date.getTime()">
+            <f7-swiper-slide v-for="page in pages" v-bind="page" v-bind:key="page.title">
                 <f7-list media-list>
-                    <list-item v-for="substitute in page.substitutes" v-bind="substitute" v-bind:key="substitute.key" :substitute="substitute"></list-item>
+                    <list-item v-for="substitute in page.substitutes" v-bind="substitute" v-bind:key="substitute.title" :substitute="substitute"></list-item>
                 </f7-list>
             </f7-swiper-slide>
         </f7-swiper>
@@ -38,38 +38,55 @@
         }
     });
 
+    const repo = new ApiSubstitutesRepository();
+
+    //Build initial viewData
+    const viewData = {
+        monday: new Date(),
+        pages: new Array<Page>(5)
+    }
+    setDate(new Date());
+
     interface Page {
-        date: Date
+        readonly title: string
         substitutes: Substitute[]
         announcement: String
     }
 
-    let repo = new ApiSubstitutesRepository();
-
-    //Build initial viewData
-    let monday = new Date();
-    if (monday.getDay() == 6) {
-        monday.setDate(monday.getDate() + 2);
-    } else if (monday.getDay() == 0) {
-        monday.setDate(monday.getDate() + 1);
-    } else {
-        monday.setDate(monday.getDate() - monday.getDay() + 1);
+    function getMondayAndWeekday(date: Date): [Date, number] {
+        const monday = new Date();
+        let day = monday.getDay()
+        if (day == 6) {
+            monday.setDate(monday.getDate() + 2);
+            day = 0;
+        } else if (day == 0) {
+            monday.setDate(monday.getDate() + 1);
+            day = 0;
+        } else {
+            monday.setDate(monday.getDate() - day + 1);
+        }
+        date = monday;
+        return [monday, day]
     }
-    let viewData = {
-        pages: new Array<Page>(5)
-    }
-    for (var i = 0; i < 5; i++) {
-        let dateI = new Date(monday.getTime());
-        dateI.setDate(dateI.getDate() + i);
-        viewData.pages[i] = {
-            substitutes: new Array<Substitute>(),
-            announcement: "",
-            date: dateI
-        };
 
-        const ii = i;
-        repo.load(dateI, function(date: Date, substitutes: Array<Substitute>) {
-            viewData.pages[ii].substitutes = substitutes;
-        });
+    function setDate(date: Date) {
+        const mondayAndWeekday = getMondayAndWeekday(date);
+
+        if (viewData.monday != mondayAndWeekday[0]) {
+            for (let i = 0; i < 5; i++) {
+                const dateI = new Date(monday.getTime());
+                dateI.setDate(dateI.getDate() + i);
+                viewData.pages[i] = {
+                    substitutes: new Array<Substitute>(),
+                    announcement: "",
+                    title: dateI.toString()
+                };
+
+                const ii = i;
+                repo.load(dateI, function(date: Date, substitutes: Array<Substitute>) {
+                    viewData.pages[ii].substitutes = substitutes;
+                });
+            }
+        }
     }
 </script>

@@ -6,13 +6,13 @@ const windows1252 = '\u0000\u0001\u0002\u0003\u0004\u0005\u0006\u0007\b\t\n\u000
 class ApiSubstitutesRepository implements SubstitutesRepository {
     constructor() {}
 
-    //private corsProxy = 'http://allow-any-origin.appspot.com/';
-    private corsProxy = 'https://crossorigin.me/';
-    //private corsProxy = 'https://cors-anywhere.herokuapp.com/'
+    //private readonly corsProxy = 'http://allow-any-origin.appspot.com/';
+    private readonly corsProxy = 'https://crossorigin.me/';
+    //private readonly corsProxy = 'https://cors-anywhere.herokuapp.com/'
 
     load(date: Date, callback: (date: Date, substitutes: Substitute[]) => void): void {
-        let apiUrl = 'https://www.gesahui.de/home/mobil/appscripts/getvplan.php?day=' + date.getFullYear().toString() + '-' + (date.getMonth() + 1).toString() + '-' + date.getDate().toString();
-        let urlString = this.corsProxy+apiUrl; //CORS proxy
+        const apiUrl = 'https://www.gesahui.de/home/mobil/appscripts/getvplan.php?day=' + date.getFullYear().toString() + '-' + (date.getMonth() + 1).toString() + '-' + date.getDate().toString();
+        const urlString = this.corsProxy+apiUrl; //CORS proxy
         console.log(urlString);
 
         fetch(urlString, {
@@ -29,9 +29,9 @@ class ApiSubstitutesRepository implements SubstitutesRepository {
     }
 
     private fromWindows1252Buffer(buffer: ArrayBuffer): string {
-        let array = new Uint8Array(buffer);
+        const array = new Uint8Array(buffer);
         let text = '';
-        for (var i = 0; i < array.length; i++) {
+        for (let i = 0; i < array.length; i++) {
             text += windows1252.charAt(array[i]);
         }
         return text;
