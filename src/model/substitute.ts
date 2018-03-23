@@ -33,7 +33,7 @@ class Substitute {
 
         this.lessonText = this.duration > 1 ? this.lessonBegin.toString() + "-" + (this.lessonBegin + this.duration - 1).toString() : this.lessonBegin.toString();
 
-        this.key = lessonBegin + duration + subject + course + teacher + room + substitute;
+        this.key = lessonBegin + duration + subject + course + teacher + substitute + room;
 
         const lowerSubstitute = substitute.toLowerCase()
         const lowerHint = hint.toLowerCase()

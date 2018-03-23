@@ -1,10 +1,12 @@
+import index from "../static/index.html"
+import "../node_modules/framework7/dist/css/framework7.ios.min.css";
+import "../static/app.css"
+import "../node_modules/framework7-icons/css/framework7-icons.css"
+console.log(index);
 import Vue from "vue";
 
 import Framework7 from "framework7"
 import Framework7Vue from "framework7-vue"
-
-import "../node_modules/framework7/dist/css/framework7.ios.min.css";
-import "../static/app.css"
 
 import App from "./app.vue";
 

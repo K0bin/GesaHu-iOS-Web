@@ -2,12 +2,12 @@
     <f7-page name="substitutes">
         <f7-navbar title="Vertretungsplan"> </f7-navbar>
         <f7-toolbar>
-            <f7-link>Link</f7-link>
+            <f7-link color="green"><f7-icon f7="calendar"></f7-icon></f7-link>
         </f7-toolbar>
         <f7-swiper pagination :params="{autoHeight: true}">
             <f7-swiper-slide v-for="page in pages" v-bind="page" v-bind:key="page.title">
                 <f7-list media-list>
-                    <list-item v-for="substitute in page.substitutes" v-bind="substitute" v-bind:key="substitute.title" :substitute="substitute"></list-item>
+                    <list-item v-for="substitute in page.substitutes" v-bind="substitute" v-bind:key="substitute.key" :substitute="substitute"></list-item>
                 </f7-list>
             </f7-swiper-slide>
         </f7-swiper>
@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts">
-    import { f7Page, f7Navbar, f7List, f7ListItem, f7Toolbar, f7Link, f7Swiper, f7SwiperSlide } from 'framework7-vue'
+    import { f7Page, f7Navbar, f7List, f7ListItem, f7Toolbar, f7Link, f7Swiper, f7SwiperSlide, f7Icon } from 'framework7-vue'
     import Vue from 'vue'
     import ApiSubstitutesRepository from '../model/repository/api/apiSubstitutesRepository'
     import Substitute from '../model/substitute'
@@ -34,6 +34,7 @@
             f7Link,
             f7Swiper,
             f7SwiperSlide,
+            f7Icon,
             ListItem
         }
     });
@@ -71,8 +72,9 @@
 
     function setDate(date: Date) {
         const mondayAndWeekday = getMondayAndWeekday(date);
+        const monday = mondayAndWeekday[0]
 
-        if (viewData.monday != mondayAndWeekday[0]) {
+        if (viewData.monday != monday) {
             for (let i = 0; i < 5; i++) {
                 const dateI = new Date(monday.getTime());
                 dateI.setDate(dateI.getDate() + i);
