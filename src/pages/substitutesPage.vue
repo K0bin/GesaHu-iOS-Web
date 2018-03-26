@@ -2,7 +2,7 @@
     <f7-page name="substitutes">
         <f7-navbar title="Vertretungsplan"> </f7-navbar>
         <f7-toolbar>
-            <f7-link color="green"><f7-icon f7="calendar"></f7-icon></f7-link>
+            <f7-link color="green" :href="false" @click="showDatePicker"><f7-icon f7="calendar"></f7-icon></f7-link>
         </f7-toolbar>
         <f7-swiper pagination :params="{autoHeight: true}">
             <f7-swiper-slide v-for="page in pages" v-bind="page" v-bind:key="page.title">
@@ -22,12 +22,20 @@
     import Announcement from '../model/announcement';
     import ListItem from './substituteListItem.vue'
     import substitutesRepository from '../model/repository/substitutesRepository';
-    import DBSubstitutesRepository from '../model/repository/dbSubstitutesRepository';
-import SubstitutesRepository from '../model/repository/substitutesRepository';
+    import DBSubstitutesRepository from '../model/repository/database/dbSubstitutesRepository';
+    import SubstitutesRepository from '../model/repository/substitutesRepository';
+    import SubstitutesList from '../model/repository/api/substitutesList';
 
     export default Vue.extend({
         data: function() {
             return viewData;
+        },
+        methods: {
+            showDatePicker: function (event: any) {
+                console.log((<any>this).$f7.calendar);
+                (<any>this).$f7.calendar.create({
+                });
+            }
         },
         components: {
             f7Page,
@@ -68,7 +76,7 @@ import SubstitutesRepository from '../model/repository/substitutesRepository';
     })
 
     function getMondayAndWeekday(date: Date): [Date, number] {
-        const monday = new Date();
+        const monday = new Date(2018, 2, 14);
         let day = monday.getDay()
         if (day == 6) {
             monday.setDate(monday.getDate() + 2);
@@ -103,19 +111,15 @@ import SubstitutesRepository from '../model/repository/substitutesRepository';
 
     function loadWeek(repository: SubstitutesRepository) {
         for (let i = 0; i < viewData.pages.length; i++) {
-            repository.loadSubstitutes(viewData.pages[i].date).then(function(substitutes: Substitute[]) {
-                if (substitutes.length == 0) return;
-
-                const i = substitutes[0].date.getDay() - viewData.pages[0].date.getDay()
+            repository.loadSubstitutesList(viewData.pages[i].date).then((list: SubstitutesList) => {
+                const i = list.date.getDay() - viewData.pages[0].date.getDay()
                 if (i > 0 && i < viewData.pages.length) {
-                    viewData.pages[i].substitutes = substitutes;
+                    viewData.pages[i].substitutes = list.substitutes;
+                    viewData.pages[i].announcement = list.announcement.text;
                 }
-            });
-            repository.loadAnnouncement(viewData.pages[i].date).then(function (announcement: Announcement) {
-                const i = announcement.date.getDay() - viewData.pages[0].date.getDay()
-                if (i > 0 && i < viewData.pages.length) {
-                    viewData.pages[i].announcement = announcement.text;
-                }
+            })
+            .catch(function(e: any) {
+                console.warn("Couldn't load substitutes: "+e)
             });
         }
     }

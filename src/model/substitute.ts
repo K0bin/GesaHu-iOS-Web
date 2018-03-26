@@ -1,6 +1,7 @@
 import SubstituteKind from './substituteKind'
+import DBSubstitute from './repository/database/dbSubstitute'
 
-export default class Substitute {
+export default class Substitute implements DBSubstitute {
     readonly date: Date;
     readonly lessonBegin: number
     readonly duration: number

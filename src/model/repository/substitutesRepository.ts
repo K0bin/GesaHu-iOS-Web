@@ -1,9 +1,11 @@
 import Substitute from '../substitute'
 import Announcement from '../announcement'
+import DbSubstitute from './database/dbSubstitute'
+import SubstitutesList from './api/substitutesList'
 
 export default interface SubstitutesRepository {
     connect(): Promise<void>
-    loadSubstitutes(date: Date): Promise<Substitute[]>;
-    loadAnnouncement(date: Date): Promise<Announcement>;
-    insert(value: Substitute[] | Announcement): void
+    loadSubstitutesList(date: Date): Promise<SubstitutesList>;
+    insert(value: DbSubstitute[] | Announcement): void
+    clear(date: Date): void
 }

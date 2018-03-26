@@ -1,7 +1,8 @@
 import Substitute from "../../substitute"
 import Announcement from "../../announcement";
+import SubstitutesList from './substitutesList'
 
-export function deserialize(json: any): [Date, Announcement, Substitute[], any[]] {
+export default function deserialize(json: any): SubstitutesList {
     const datumStr = json["Datum"] as string
     const date = new Date(datumStr);
 
@@ -19,7 +20,11 @@ export function deserialize(json: any): [Date, Announcement, Substitute[], any[]
 
     const aufsichten = json['Aufsichten'] as Array<any>;
 
-    return [date, announcement, substitutes, aufsichten];
+    return {
+        date: date,
+        announcement: announcement,
+        substitutes: substitutes
+    };
 }
 
 function deserializeSubstitute(date: Date, jsonObject: any): Substitute {
