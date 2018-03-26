@@ -28,6 +28,13 @@ let app = new Vue({
             }
         ]
     },
+    methods: {
+        onF7Ready(f7: Framework7) {
+            if ((f7.device as any).osVersion < '10.3') {
+                console.error("Unsupported browser!")
+            }
+        }
+    },
     components: {
         App
     }

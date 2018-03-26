@@ -19,7 +19,11 @@
     import Vue from 'vue'
     import ApiSubstitutesRepository from '../model/repository/api/apiSubstitutesRepository'
     import Substitute from '../model/substitute'
+    import Announcement from '../model/announcement';
     import ListItem from './substituteListItem.vue'
+    import substitutesRepository from '../model/repository/substitutesRepository';
+    import DBSubstitutesRepository from '../model/repository/dbSubstitutesRepository';
+import SubstitutesRepository from '../model/repository/substitutesRepository';
 
     export default Vue.extend({
         data: function() {
@@ -39,20 +43,29 @@
         }
     });
 
-    const repo = new ApiSubstitutesRepository();
-
     //Build initial viewData
     const viewData = {
         monday: new Date(),
         pages: new Array<Page>(5)
     }
-    setDate(new Date());
 
     interface Page {
+        readonly date: Date
         readonly title: string
         substitutes: Substitute[]
         announcement: String
     }
+
+    setDate(new Date());
+
+    const db: substitutesRepository = new DBSubstitutesRepository();
+    const api: substitutesRepository = new ApiSubstitutesRepository(db);
+    db.connect().then(function() {
+        loadWeek(db);
+    })
+    api.connect().then(function() {
+        loadWeek(api);
+    })
 
     function getMondayAndWeekday(date: Date): [Date, number] {
         const monday = new Date();
@@ -81,14 +94,29 @@
                 viewData.pages[i] = {
                     substitutes: new Array<Substitute>(),
                     announcement: "",
+                    date: dateI,
                     title: dateI.toString()
                 };
-
-                const ii = i;
-                repo.load(dateI, function(date: Date, substitutes: Array<Substitute>) {
-                    viewData.pages[ii].substitutes = substitutes;
-                });
             }
+        }
+    }
+
+    function loadWeek(repository: SubstitutesRepository) {
+        for (let i = 0; i < viewData.pages.length; i++) {
+            repository.loadSubstitutes(viewData.pages[i].date).then(function(substitutes: Substitute[]) {
+                if (substitutes.length == 0) return;
+
+                const i = substitutes[0].date.getDay() - viewData.pages[0].date.getDay()
+                if (i > 0 && i < viewData.pages.length) {
+                    viewData.pages[i].substitutes = substitutes;
+                }
+            });
+            repository.loadAnnouncement(viewData.pages[i].date).then(function (announcement: Announcement) {
+                const i = announcement.date.getDay() - viewData.pages[0].date.getDay()
+                if (i > 0 && i < viewData.pages.length) {
+                    viewData.pages[i].announcement = announcement.text;
+                }
+            });
         }
     }
 </script>

@@ -1,10 +1,15 @@
 import Substitute from "../../substitute"
+import Announcement from "../../announcement";
 
-export function deserialize(json: any): [Date, String, Substitute[], any[]] {
-    const announcement = json["Hinweise"] as string;
-
+export function deserialize(json: any): [Date, Announcement, Substitute[], any[]] {
     const datumStr = json["Datum"] as string
     const date = new Date(datumStr);
+
+    let announcementText = json["Hinweise"] as string;
+    if (announcementText.trim() == "keine") {
+        announcementText = "";
+    }
+    const announcement = new Announcement(date, announcementText)
 
     const stunden = json["Stunden"] as Array<any>;
     const substitutes = new Array<Substitute>();
